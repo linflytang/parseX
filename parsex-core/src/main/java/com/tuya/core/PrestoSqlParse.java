@@ -107,6 +107,15 @@ public class PrestoSqlParse extends AbstractSqlParse {
         } else if (expression instanceof CoalesceExpression) {
             CoalesceExpression coalesce = (CoalesceExpression) expression;
             return getString(coalesce.getOperands());
+        } else if (expression instanceof SimpleCaseExpression) {
+            // TODO tangjm
+            SimpleCaseExpression simpleCase = (SimpleCaseExpression) expression;
+            return "";
+        } else if (expression instanceof SubqueryExpression) {
+            // TODO tangjm
+            SubqueryExpression subquery = (SubqueryExpression) expression;
+            checkNode(subquery.getQuery());
+            return "";
         }
         throw new SqlParseException("无法识别的表达式:" + expression.getClass().getName());
         //   return expression.toString();
@@ -164,7 +173,8 @@ public class PrestoSqlParse extends AbstractSqlParse {
                 || node instanceof OrderBy || node instanceof Identifier
                 || node instanceof InListExpression || node instanceof DereferenceExpression
                 || node instanceof IsNotNullPredicate || node instanceof IsNullPredicate
-                || node instanceof FunctionCall) {
+                || node instanceof FunctionCall
+                || node instanceof BetweenPredicate) {
             print(node.getClass().getName());
 
         } else if (node instanceof WithQuery) {
@@ -231,6 +241,14 @@ public class PrestoSqlParse extends AbstractSqlParse {
             }
             inputTables.add(buildTableInfo(allName, OperatorType.READ));
 
+        } else if (statement instanceof Insert) {
+            Insert insert = (Insert) statement;
+            outputTables.add(buildTableInfo(insert.getTarget().toString(), OperatorType.WRITE));
+            loopNode(insert.getChildren());
+        } else if (statement instanceof Delete) {
+            Delete insert = (Delete) statement;
+            outputTables.add(buildTableInfo(insert.getTable().toString(), OperatorType.DELETE));
+            loopNode(insert.getChildren());
         } else {
             throw new SqlParseException("sorry,only support read statement,unSupport statement:" + statement.getClass().getName());
         }
