@@ -7,11 +7,12 @@
         <module>parsex-client</module>
         <module>parsex-core</module>
         <module>parsex-common</module>
+        <module>parsex-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tuya.bigdata</groupId>
@@ -28,6 +29,7 @@
         <log4j.version>1.2.17</log4j.version>
         <spark.version>2.4.0</spark.version>
         <scala.binary.version>2.11</scala.binary.version>
+        <springboot.version>2.2.5.RELEASE</springboot.version>
     </properties>
 
 
@@ -69,6 +71,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
             <dependency>
@@ -80,6 +83,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.version}</version>
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
