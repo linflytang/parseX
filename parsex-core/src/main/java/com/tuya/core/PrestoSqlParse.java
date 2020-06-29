@@ -247,8 +247,12 @@ public class PrestoSqlParse extends AbstractSqlParse {
             loopNode(insert.getChildren());
         } else if (statement instanceof Delete) {
             Delete insert = (Delete) statement;
-            outputTables.add(buildTableInfo(insert.getTable().toString(), OperatorType.DELETE));
+            //outputTables.add(buildTableInfo(insert.getTable().toString(), OperatorType.DELETE));
             loopNode(insert.getChildren());
+        } else if (statement instanceof CreateTableAsSelect) {
+            CreateTableAsSelect createTableAsSelect = (CreateTableAsSelect) statement;
+            tempTables.add(buildTableInfo(createTableAsSelect.getName().toString(), OperatorType.CREATE));
+            check(createTableAsSelect.getQuery());
         } else {
             throw new SqlParseException("sorry,only support read statement,unSupport statement:" + statement.getClass().getName());
         }
