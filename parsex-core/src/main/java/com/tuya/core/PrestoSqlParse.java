@@ -251,7 +251,7 @@ public class PrestoSqlParse extends AbstractSqlParse {
             loopNode(insert.getChildren());
         } else if (statement instanceof CreateTableAsSelect) {
             CreateTableAsSelect createTableAsSelect = (CreateTableAsSelect) statement;
-            tempTables.add(buildTableInfo(createTableAsSelect.getName().toString(), OperatorType.CREATE));
+            outputTables.add(buildTableInfo(createTableAsSelect.getName().toString(), OperatorType.CREATE));
             check(createTableAsSelect.getQuery());
         } else {
             throw new SqlParseException("sorry,only support read statement,unSupport statement:" + statement.getClass().getName());
