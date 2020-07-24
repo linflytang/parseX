@@ -116,6 +116,9 @@ public class PrestoSqlParse extends AbstractSqlParse {
             SubqueryExpression subquery = (SubqueryExpression) expression;
             checkNode(subquery.getQuery());
             return "";
+        } else if (expression instanceof  GroupingOperation) {
+            GroupingOperation groupingOperation = (GroupingOperation) expression;
+            return "";
         }
         throw new SqlParseException("无法识别的表达式:" + expression.getClass().getName());
         //   return expression.toString();
